@@ -175,7 +175,9 @@ module Dependabot
         tag_value = img_hash.key?("tag") ? img_hash.fetch("tag", nil) : img_hash.fetch("version", nil)
         registry = img_hash.fetch("registry", nil)
 
-        tag_details = tag_value.to_s.match(TAG_WITH_DIGEST).named_captures
+        tag_match = tag_value.to_s.match(TAG_WITH_DIGEST)
+        tag_details = tag_match&.named_captures || {}
+
         tag = tag_details["tag"]
         digest = tag_details["digest"]
 
